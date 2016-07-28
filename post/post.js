@@ -4,30 +4,8 @@
 
 
 function isValueNum(input) {
-    function IsNum(s) {
-        if (s != null && s != "") {
-            return !isNaN(s);
-        }
-        return false;
-    }
-
-    if (input.length === 5 || input.length === 9 || input.length === 10) {
-        if (input[5] === '-') {
-            let number = input.split('-');
-            input = number[0].concat(number[1]);
-
-            return IsNum(input);
-        }
-        else {
-            return IsNum(input);
-        }
-
-    }
-    else {
-        return 'Opes!Your input is wrong';
-    }
+    return /^\d{5}(-?\d{4})?$/.test(input);
 }
-
 
 function verify(input) {
     let verifiedNum = [];
@@ -39,7 +17,7 @@ function verify(input) {
         }
         return a;
     });
-    verifiedNum = input.slice(0, 5) + input.slice(6, 10);    //verifiedNum='450561234'
+    verifiedNum = input.replace('-','');
     if (sum % 10 === 0) {
         verifiedNum += '0';
     }
@@ -51,45 +29,15 @@ function verify(input) {
 }
 
 
+
 function matchCode(verifiedNum) {
     let barcodes = [];
+    let allCodes=loadAllCodes();
     let arr = verifiedNum.split('');
-    for (let code of arr) {
-        switch (code) {
-            case '1' :
-                barcodes.push(':::||');
-                break;
-            case '2':
-                barcodes.push('::|:|');
-                break;
-            case '3':
-                barcodes.push('::||:');
-                break;
-            case '4':
-                barcodes.push(':|::|');
-                break;
-            case '5':
-                barcodes.push(':|:|:');
-                break;
-            case '6':
-                barcodes.push(':||::');
-                break;
-            case '7':
-                barcodes.push('|:::|');
-                break;
-            case '8':
-                barcodes.push('|::|:');
-                break;
-            case '9':
-                barcodes.push('|:|::');
-                break;
-            case '0':
-                barcodes.push('||:::');
-                break;
-        }
-    }
+    barcodes=arr.map((a)=>allCodes[a]);
     return barcodes;
 }
+
 
 
 function numIntoBar(input) {
@@ -100,7 +48,16 @@ function numIntoBar(input) {
 
 
 function isValueAll(input) {
-    return true;
+    let bool = false;
+    if (isValue(input)) {
+        if (hasFrame(input)) {
+            let noFrame = input.slice(1, -1);
+            if (isFiveLength(noFrame)) {
+                return bool = true;
+            }
+        }
+    }
+    return bool;
 }
 function isValue(input) {
     let bool = true;
@@ -121,7 +78,7 @@ function hasFrame(barcode) {
     return bool;
 }
 
-function isFiveLength(input) {
+function isFiveLength2(input) {
     let bool = true;
     let arr = input.split(' ');
     for (let i of arr) {
@@ -130,6 +87,12 @@ function isFiveLength(input) {
         }
     }
     return bool;
+}
+
+function isFiveLength(input) {
+    return input.split(' ').filter((v,k,arr)=>{
+        return k>0&&k<arr.length-1;
+    }).every(v=>v.length===5);
 }
 
 
@@ -141,27 +104,22 @@ function loadAllCodes() {
 
 
 function splitCode(input) {
-    let splitedCodes = [];
-    input = input.slice(1, -1).split(" ");
-    for (let item of input) {
-        splitedCodes.push(item);
-    }
-    return splitedCodes;
+    
+    return input.slice(2,-2).split(' ');
 }
+
 
 function matchNum(splitedCodes) {
     let allCodes = loadAllCodes();
     let matchedNum = '';
 
-    for (let i = 0; i < splitedCodes.length; i++) {
-        for (let j = 0; j < allCodes.length; j++) {
-            if (splitedCodes[i] === allCodes[j]) {
-                matchedNum += j;
-            }
+    matchedNum=splitedCodes.map((a)=>{
+        if(allCodes.includes(a)){
+            return allCodes.indexOf(a);
         }
-    }
+    });
 
-    return matchedNum;
+    return matchedNum.join('');
 }
 
 function codeTurnNum(barcode) {
@@ -181,12 +139,12 @@ function codeTurnNum(barcode) {
 
 
 module.exports = {
-    o: isValueNum,
-    a: verify,
-    b: matchCode,
-    c: numIntoBar,
-    d: isValueAll,
-    e: splitCode,
-    f: matchNum,
-    g: codeTurnNum
+    isValueNum: isValueNum,
+    verify: verify,
+    matchCode: matchCode,
+    numIntoBar: numIntoBar,
+    isValueAll: isValueAll,
+    splitCode: splitCode,
+    matchNum: matchNum,
+    codeTurnNum: codeTurnNum
 };
