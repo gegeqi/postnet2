@@ -17,7 +17,7 @@ function verify(input) {
         }
         return a;
     });
-    verifiedNum = input.replace('-','');
+    verifiedNum = input.replace('-', '');
     if (sum % 10 === 0) {
         verifiedNum += '0';
     }
@@ -29,15 +29,13 @@ function verify(input) {
 }
 
 
-
 function matchCode(verifiedNum) {
     let barcodes = [];
-    let allCodes=loadAllCodes();
+    let allCodes = loadAllCodes();
     let arr = verifiedNum.split('');
-    barcodes=arr.map((a)=>allCodes[a]);
+    barcodes = arr.map((a)=>allCodes[a]);
     return barcodes;
 }
-
 
 
 function numIntoBar(input) {
@@ -90,9 +88,9 @@ function isFiveLength2(input) {
 }
 
 function isFiveLength(input) {
-    return input.split(' ').filter((v,k,arr)=>{
-        return k>0&&k<arr.length-1;
-    }).every(v=>v.length===5);
+    return input.split(' ').filter((v, k, arr)=> {
+        return k > 0 && k < arr.length - 1;
+    }).every(v=>v.length === 5);
 }
 
 
@@ -104,8 +102,8 @@ function loadAllCodes() {
 
 
 function splitCode(input) {
-    
-    return input.slice(2,-2).split(' ');
+
+    return input.slice(2, -2).split(' ');
 }
 
 
@@ -113,8 +111,8 @@ function matchNum(splitedCodes) {
     let allCodes = loadAllCodes();
     let matchedNum = '';
 
-    matchedNum=splitedCodes.map((a)=>{
-        if(allCodes.includes(a)){
+    matchedNum = splitedCodes.map((a)=> {
+        if (allCodes.includes(a)) {
             return allCodes.indexOf(a);
         }
     });
