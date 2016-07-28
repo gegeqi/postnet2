@@ -1,7 +1,33 @@
 /**
  * Created by dujinqiao on 16-7-28.
  */
-const  hanshu=require('../../post/post');
+const hanshu = require('../../post/post');
+
+describe("judge if value number",function () {
+   it("should return true when users' input if 5 digit string",function () {
+       let input='32343';
+       let result=hanshu.o(input);
+       expect(result).toEqual(true);
+   }) ;
+
+    it("should return true when users' input if 9 digit string",function () {
+        let input='323434444';
+        let result=hanshu.o(input);
+        expect(result).toEqual(true);
+    }) ;
+
+    it("should return true when users' input if 10 digit string",function () {
+        let input='32343-4444';
+        let result=hanshu.o(input);
+        expect(result).toEqual(true);
+    }) ;
+
+    it("should return false when users' input other thing",function () {
+        let input='rrrr';
+        let result=hanshu.o(input);
+        expect(result).toEqual('Opes!Your input is wrong');
+    }) ;
+});
 
 describe("calculate verify code", function () {
     it("should get string with a verified code", function () {
@@ -63,7 +89,6 @@ describe("code to number", function () {
         let expected = 'Validation Check:       ' + '||:|:: ::||: ||::: |:|:: |:::| :|:|:|   ==   ' + 93097 + '\n' + 'cd is ' + 5;
         expect(result).toEqual(expected);
     });
-
 
 });
 

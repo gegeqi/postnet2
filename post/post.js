@@ -3,6 +3,32 @@
  */
 
 
+function isValueNum(input) {
+    function IsNum(s) {
+        if (s != null && s != "") {
+            return !isNaN(s);
+        }
+        return false;
+    }
+
+    if (input.length === 5 || input.length === 9 || input.length === 10) {
+        if (input[5] === '-') {
+            let number = input.split('-');
+            input = number[0].concat(number[1]);
+
+            return IsNum(input);
+        }
+        else {
+            return IsNum(input);
+        }
+
+    }
+    else {
+        return 'Opes!Your input is wrong';
+    }
+}
+
+
 function verify(input) {
     let verifiedNum = [];
     let cd = 0;
@@ -154,10 +180,13 @@ function codeTurnNum(barcode) {
 }
 
 
-function numIntoBar(input) {
-    let barcodes = matchCode(verify(input));
-    let text = 'Validation Check:       ' + input + '   ==   |' + barcodes.join("") + '|' + '\n' + 'cd is ' + verify(input).slice(-1);
-    return text;
-}
-
-module.exports={a:verify,b:matchCode,c:numIntoBar,d:isValueAll,e:splitCode,f:matchNum,g:codeTurnNum};
+module.exports = {
+    o: isValueNum,
+    a: verify,
+    b: matchCode,
+    c: numIntoBar,
+    d: isValueAll,
+    e: splitCode,
+    f: matchNum,
+    g: codeTurnNum
+};
